@@ -94,8 +94,18 @@ for k,f in FONTES.items():
 
 PROF=["administradores","advogados","arquitetos e urbanistas","assistentes sociais","bibliotecários","biólogos","contabilistas (contadores e técnicos em contabilidade)","economistas","economistas domésticos","profissionais de educação física","engenheiros e agrônomos","estatísticos","médicos veterinários e zootecnistas","museólogos","químicos","profissionais de relações públicas","técnicos industriais","técnicos agrícolas"]
 A=[]
-def add(t,trat,red,reg,lc,kw="",regs=None,obs="",vig=""):
-    A.append({"t":t,"trat":trat,"red":red,"reg":reg,"lc":lc,"kw":kw,"obs":obs,"vig":vig,"texto":"\n\n".join(art(r) for r in (regs or [reg]))})
+def add(t,trat,red,reg,lc,kw="",regs=None,obs="",vig="",texto=None,aba=""):
+    A.append({"t":t,"trat":trat,"red":red,"reg":reg,"lc":lc,"kw":kw,"obs":obs,"vig":vig,"aba":aba,"texto":texto if texto is not None else "\n\n".join(art(r) for r in (regs or [reg]))})
+
+def lc_art(n):
+    t=open("lc.txt").read()
+    t="\n".join(l for l in t.split("\n") if not re.fullmatch(r"\s*\d{1,3}\s*", l))
+    i=t.index("Art. %s. "%n); j=t.index("Art. %d. "%(int(n)+1), i)
+    body=re.split(r"\n\s*(?:CAPÍTULO|Seção|TÍTULO|LIVRO) [IVXL]+\s*\n", t[i:j])[0]
+    body=re.sub(r"[ \t]+"," ",body)
+    body=re.sub(r"(?<![.;:])\n(?![ ]?(§|[IVXL]+ -|[a-z]\)|Parágrafo))"," ",body)
+    return re.sub(r"\n ","\n",body).strip()
+LC381=lc_art("381"); LC383=lc_art("383")
 for p in PROF:
     add("Serviços de "+p,"red30",.3,"202","127","profissão regulamentada conselho profissional serviço intelectual "+p,
         obs="Pessoa física: serviço ligado à habilitação. Pessoa jurídica: sócios habilitados no conselho, sem sócio PJ, sem participar de outra PJ e só a atividade da habilitação (art. 202, § 1º).")
@@ -125,6 +135,9 @@ add("Compra de produtor rural não contribuinte","credpres",None,"239","164 a 16
 add("Frete de transportador autônomo pessoa física ou MEI","credpres",None,"250","169","frete caminhoneiro transporte de carga crédito presumido",vig="O crédito presumido só vale a partir de 1º/01/2027 (art. 617, II, do regulamento, na redação da Resolução CGIBS nº 13/2026).")
 add("Compra de resíduos para reciclagem de pessoa física ou cooperativa","credpres",None,"256","170","reciclagem sucata resíduo catador crédito presumido",vig="O crédito presumido só vale a partir de 1º/01/2027 (art. 617, II, do regulamento, na redação da Resolução CGIBS nº 13/2026).")
 add("Compra de bens móveis usados de pessoa física para revenda","credpres",None,"258","171","usado seminovo revenda brechó veículo usado crédito presumido",vig="O crédito presumido só vale a partir de 1º/01/2027 (art. 617, II, do regulamento, na redação da Resolução CGIBS nº 13/2026).")
+add("Crédito presumido de CBS sobre o estoque em 1º/01/2027 (9,25%)","credpres",None,"—","381","estoque inventário lucro presumido cumulativo monofásico substituição tributária pis cofins transição 9,25 crédito presumido",
+    obs="Para empresas no regime regular da CBS, sobre o estoque de 1º/01/2027 que não gerou crédito de PIS/Cofins (lucro presumido/cumulativo, monofásicos e ST, ou vedação parcial). Apurar até 30/06/2027 e usar em 12 parcelas só contra a CBS. Veja a aba \"Crédito do estoque\".",
+    texto=LC381+"\n\n"+LC383, aba="estoque")
 add("Exportação de bens e serviços","imune",1.0,"90","79","exportação exterior",regs=["90"])
 add("Imunidades (entes públicos, templos, partidos, entidades de educação e assistência sem fins lucrativos, livros, jornais etc.)","imune",1.0,"10","9º","imunidade igreja templo livro jornal partido sindicato ONG",regs=["10"])
 add("Zona Franca de Manaus e Áreas de Livre Comércio","regesp",None,"432","439 e seguintes","manaus suframa zona franca área de livre comércio",regs=["432","434","516"],obs="Benefícios detalhados nos arts. 514 a 531.",vig="Parte dos benefícios tem início adiado: arts. 515, 525 e 526 a partir de 1º/01/2027; arts. 517, 518, 520 a 522, 528 e 529 a partir de 1º/01/2029 (art. 617 do regulamento, na redação da Resolução CGIBS nº 13/2026).")
@@ -137,7 +150,7 @@ NORMAS=[
  ["Resoluções CGIBS nº 1, 2, 3, 4, 5, 8, 9, 11, 16, 17 e 18 de 2026","Funcionamento interno do Comitê Gestor: comissões, eleição, regimento, estrutura, processo eletrônico, licitações, competências e pessoal","sem efeito"],
  ["Resoluções CGIBS nº 7, 10, 12 e 15 de 2026","Orçamento do Comitê Gestor para 2026 e 2027","sem efeito"],
 ]
-json.dump({"fontes":FONTES,"itens":itens,"ativ":A,"normas":NORMAS}, open("data.json","w"), ensure_ascii=False, separators=(",",":"))
+json.dump({"fontes":FONTES,"itens":itens,"ativ":A,"normas":NORMAS,"lc381":LC381,"lc383":LC383}, open("data.json","w"), ensure_ascii=False, separators=(",",":"))
 from collections import Counter
 print(len(itens), Counter(i["a"] for i in itens)); print(len(A))
 print([ (i["n"],i["p"],i["x"]) for i in itens if i["a"]=="I"][18:20])

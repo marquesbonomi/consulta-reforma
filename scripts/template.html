@@ -50,7 +50,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .dica{font-size:.88rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .chip{font:500 .82rem var(--f-mono);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:3px 9px;border-radius:999px;cursor:pointer}
 .chip:hover,.chip:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
-.tabs{display:flex;gap:4px;overflow-x:auto;margin-top:22px;border-bottom:1px solid var(--line)}
+.tabs{scroll-margin-top:72px;display:flex;gap:4px;overflow-x:auto;margin-top:22px;border-bottom:1px solid var(--line)}
 .tab{white-space:nowrap;background:none;border:0;border-bottom:3px solid transparent;padding:8px 12px;font:600 .95rem var(--f-body);color:var(--muted);cursor:pointer}
 .tab[aria-selected="true"]{color:var(--ink);border-color:var(--accent)}
 .tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -95,6 +95,28 @@ pre.txt{white-space:pre-wrap;font:400 .86rem/1.55 var(--f-body);background:var(-
 .norma b{font-weight:600}
 .norma small{grid-column:1;color:var(--muted);font-size:.88rem}
 .norma .trat{grid-row:1/3;grid-column:2;align-self:center}
+.est{display:flex;flex-direction:column;gap:18px;margin-top:16px}
+.est section{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;min-width:0}
+.est h2{font:700 1.2rem/1.25 var(--f-display);margin:0 0 8px;text-wrap:balance}
+.est h3{font:600 1rem var(--f-body);margin:14px 0 4px}
+.est p,.est li{max-width:72ch}
+.est p{margin:6px 0}
+.est ul,.est ol{margin:6px 0;padding-left:1.3em;display:flex;flex-direction:column;gap:6px}
+.est .lead{font-size:1.05rem}
+.est .cite{font-size:.82rem;color:var(--muted)}
+.prazos{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:8px}
+.prazo{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.prazo b{font:700 1.05rem var(--f-display)}
+.prazo small{color:var(--muted);font-size:.85rem}
+.calc2{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;align-items:end}
+.calc2 label{display:flex;flex-direction:column;gap:4px;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
+.calc2 input,.calc2 select{font:600 1rem var(--f-mono);padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%}
+.calc2 select{font-family:var(--f-body)}
+.res2{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:12px;font:600 1rem var(--f-mono);font-variant-numeric:tabular-nums}
+.res2 div{display:flex;flex-direction:column}
+.res2 span{font:600 .72rem var(--f-body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.res2 .big{font-size:1.35rem;color:var(--accent)}
+.link-aba{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;text-decoration:underline}
 .aviso{margin-top:28px;font-size:.84rem;color:var(--muted);max-width:70ch}
 @media (max-width:560px){.sep{display:none}.ficha{grid-template-columns:1fr}.calc{text-align:left;justify-self:start}.fonte{text-align:left}}
 </style>
@@ -130,12 +152,14 @@ pre.txt{white-space:pre-wrap;font:400 .86rem/1.55 var(--f-body);background:var(-
     <button class="chip" data-q="contabilista">contabilista</button>
     <button class="chip" data-q="aluguel">aluguel</button>
     <button class="chip" data-q="8703">8703</button>
+    <button class="chip" data-q="estoque">estoque</button>
   </div>
 </div>
 
 <div class="tabs" role="tablist">
   <button class="tab" role="tab" id="tab-busca" aria-selected="true">Resultado</button>
   <button class="tab" role="tab" id="tab-anexos" aria-selected="false">Navegar por benefício</button>
+  <button class="tab" role="tab" id="tab-estoque" aria-selected="false">Crédito do estoque</button>
   <button class="tab" role="tab" id="tab-normas" aria-selected="false">Normas consideradas</button>
 </div>
 
@@ -146,6 +170,90 @@ pre.txt{white-space:pre-wrap;font:400 .86rem/1.55 var(--f-body);background:var(-
 <div id="v-anexos" hidden>
   <p class="resumo">Cada lista da lei, com o tratamento e a quantidade de itens. Clique para ver os itens.</p>
   <div class="anexos" id="anexos"></div>
+</div>
+
+<div id="v-estoque" hidden>
+<div class="est">
+  <section>
+    <h2>Crédito de 9,25% sobre o estoque na virada para a CBS</h2>
+    <p class="lead">Quem entra em 2027 no regime regular da CBS pode transformar em crédito de CBS o PIS e a Cofins embutidos no estoque que não geraram crédito até 2026. O crédito é de 9,25% do valor do estoque comprado no Brasil.</p>
+    <p class="cite">LC 214/2025, art. 381 (crédito) e art. 383 (prazo de uso). É um crédito da CBS, o tributo federal; por isso não está no regulamento do IBS.</p>
+  </section>
+
+  <section>
+    <h2>Quem tem direito</h2>
+    <p>Primeiro requisito: estar no <b>regime regular da CBS</b> em 2027. Empresas do Simples Nacional não entram.</p>
+    <p>Depois, o estoque precisa estar em pelo menos uma destas situações:</p>
+    <ol>
+      <li><b>Empresa no PIS/Cofins cumulativo em 31/12/2026</b>, que é o regime típico do lucro presumido. Vale para o estoque sobre o qual não houve crédito por causa desse regime. É o caso mais comum.</li>
+      <li><b>Bens que entraram com PIS/Cofins monofásico ou por substituição tributária</b>: combustíveis, medicamentos, perfumaria e higiene, autopeças e veículos, bebidas frias, entre outros listados no inciso II. Aqui vale também para empresa do lucro real.</li>
+      <li><b>Parte do estoque que tinha vedação parcial de crédito</b> no regime não cumulativo (§§ 7º a 9º do art. 3º das Leis 10.637/2002 e 10.833/2003).</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>O que entra e o que fica de fora</h2>
+    <h3>Entra</h3>
+    <ul>
+      <li>Bens <b>novos</b>, comprados de empresa no Brasil ou importados.</li>
+      <li>Para <b>revenda</b>, para <b>produção</b> de bens vendidos ou para uso na <b>prestação de serviços</b> a terceiros.</li>
+    </ul>
+    <h3>Fica de fora</h3>
+    <ul>
+      <li>Bens usados ou comprados de pessoa física.</li>
+      <li>Produtos que entraram com alíquota zero, isenção, suspensão ou sem incidência de PIS/Cofins.</li>
+      <li>Bens de uso e consumo pessoal (art. 57 da LC 214).</li>
+      <li>Ativo imobilizado e imóveis.</li>
+    </ul>
+    <p class="cite">Art. 381, § 1º e § 5º.</p>
+  </section>
+
+  <section>
+    <h2>Quanto vale</h2>
+    <ul>
+      <li><b>Bens comprados no Brasil:</b> 9,25% sobre o valor do estoque (art. 381, § 3º, I).</li>
+      <li><b>Bens importados:</b> o valor de PIS/Cofins-Importação efetivamente pago, sem o adicional de alíquota (art. 381, § 3º, II).</li>
+    </ul>
+    <h3>Simulação</h3>
+    <div class="calc2">
+      <label for="est-valor">Valor do estoque que dá direito (R$)<input id="est-valor" inputmode="decimal" value="500.000,00"></label>
+      <label for="est-mes">Mês em que o crédito será lançado<select id="est-mes">
+        <option value="0">Janeiro/2027</option><option value="1">Fevereiro/2027</option><option value="2">Março/2027</option>
+        <option value="3">Abril/2027</option><option value="4">Maio/2027</option><option value="5" selected>Junho/2027 (último mês)</option>
+      </select></label>
+    </div>
+    <div class="res2">
+      <div><span>Crédito total (9,25%)</span><b class="big" id="est-cred"></b></div>
+      <div><span>Parcela mensal (1/12)</span><b id="est-parc"></b></div>
+      <div><span>Uso das parcelas</span><b id="est-per"></b></div>
+    </div>
+    <p class="cite">Simulação para bens comprados no Brasil, usando um valor de exemplo. Para importados, o crédito é o PIS/Cofins-Importação pago. Use só o valor do estoque que se enquadra nas situações acima.</p>
+  </section>
+
+  <section>
+    <h2>Prazos e uso</h2>
+    <div class="prazos">
+      <div class="prazo"><b>31/12/2026</b><small>Fechar o inventário com as notas de compra que comprovem cada item.</small></div>
+      <div class="prazo"><b>Até 30/06/2027</b><small>Apurar e lançar o crédito (§ 4º, I).</small></div>
+      <div class="prazo"><b>12 parcelas iguais</b><small>A partir do mês seguinte ao lançamento (§ 4º, II).</small></div>
+      <div class="prazo"><b>5 anos</b><small>Prazo para usar, contado do mês do lançamento (art. 383).</small></div>
+    </div>
+    <ul>
+      <li>O crédito <b>só abate a CBS</b>. Não compensa outros tributos e não pode ser pedido em dinheiro (§ 4º, III).</li>
+      <li>Esses créditos de transição são usados <b>antes</b> dos créditos normais de CBS (art. 382).</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>O que ainda depende de regulamentação</h2>
+    <p>O § 2º do art. 381 diz que um ato do Poder Executivo federal vai definir como o estoque de 1º/01/2027 será verificado. Esse ato pode exigir inventário com valoração ou outro método. Até ele sair, o caminho seguro é levantar com cuidado o inventário de 31/12/2026, separar os itens por situação (cumulativo, monofásico/ST, vedação parcial) e guardar as notas de entrada.</p>
+    <p>Fale com a equipe da Bonomi Contábil para levantar o estoque que dá direito ao crédito na sua empresa.</p>
+  </section>
+
+  <section>
+    <details><summary>Ver texto da LC 214/2025 (arts. 381 e 383)</summary><pre class="txt" id="est-texto"></pre></details>
+  </section>
+</div>
 </div>
 
 <div id="v-normas" hidden>
@@ -218,11 +326,11 @@ function fichaItem(i, m){
 function fichaAtiv(a){
   const t = TR[a.trat];
   return `<article class="ficha">
-    <div class="topo"><span class="trat ${t.c}">${t.l}</span><span class="onde">Atividade</span></div>
-    <div><p class="desc">${esc(a.t)}</p>${a.obs ? `<p class="obs">${esc(a.obs)}</p>` : ""}${a.vig ? `<p class="vig">Vigência: ${esc(a.vig)}</p>` : ""}</div>
+    <div class="topo"><span class="trat ${t.c}">${t.l}</span><span class="onde">${a.reg === "—" ? "Transição PIS/Cofins → CBS" : "Atividade"}</span></div>
+    <div><p class="desc">${esc(a.t)}</p>${a.obs ? `<p class="obs">${esc(a.obs)}</p>` : ""}${a.vig ? `<p class="vig">Vigência: ${esc(a.vig)}</p>` : ""}${a.aba ? `<p class="obs"><button class="link-aba" data-ir="${a.aba}">Abrir a explicação completa</button></p>` : ""}</div>
     ${calcHTML(a.red)}
     <div class="lei">${leiHTML(a.lc, a.reg)}</div>
-    <details><summary>Ver texto do regulamento</summary><pre class="txt">${esc(a.texto)}</pre></details>
+    <details><summary>Ver texto ${a.reg === "—" ? "da lei" : "do regulamento"}</summary><pre class="txt">${esc(a.texto)}</pre></details>
   </article>`;
 }
 
@@ -285,7 +393,7 @@ function verAnexo(a){
 }
 
 function aba(n){
-  for (const k of ["busca","anexos","normas"]){
+  for (const k of ["busca","anexos","estoque","normas"]){
     $("#tab-"+k).setAttribute("aria-selected", n===k); $("#v-"+k).hidden = n!==k; }
 }
 const NT = {base:["Base","t-zero"], aplicada:["Aplicada","t-red"], "sem efeito":["Sem efeito nos benefícios","t-esp"]};
@@ -305,6 +413,21 @@ document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () =
 $("#tab-busca").onclick = () => aba("busca");
 $("#tab-anexos").onclick = () => aba("anexos");
 $("#tab-normas").onclick = () => aba("normas");
+$("#tab-estoque").onclick = () => aba("estoque");
+$("#est-texto").textContent = DATA.lc381 + "\n\n" + DATA.lc383;
+const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const brl = v => v.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+function calcEstoque(){
+  const v = num($("#est-valor")), m = +$("#est-mes").value;
+  const c = v * 0.0925, ini = m + 1, fim = ini + 11;
+  const nome = k => MESES[k % 12] + "/" + (2027 + Math.floor(k / 12));
+  $("#est-cred").textContent = brl(c);
+  $("#est-parc").textContent = brl(c / 12);
+  $("#est-per").textContent = nome(ini) + " a " + nome(fim);
+}
+["est-valor","est-mes"].forEach(id => $("#"+id).addEventListener("input", calcEstoque));
+calcEstoque();
+$("#lista").addEventListener("click", e => { const b = e.target.closest("[data-ir]"); if (!b) return; aba(b.dataset.ir); $(".tabs").scrollIntoView({block:"start"}); });
 let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => { aba("busca"); render(); }, 150); });
 ["cbs","ibs"].forEach(id => $("#"+id).addEventListener("input", render));
 
