@@ -2,7 +2,7 @@
 
 Página pública de consulta (repositório `marquesbonomi/consulta-reforma`) dos benefícios de IBS e CBS por NCM, NBS ou atividade.
 
-No ar em: **https://reforma.bonomi.com.br** (GitHub Pages, publica sozinho a cada mudança no `main`). O domínio está no arquivo `CNAME`; no DNS do bonomi.com.br há um registro CNAME `reforma` → `marquesbonomi.github.io`.
+No ar em: **https://marquesbonomi.github.io/consulta-reforma/** (GitHub Pages, publica sozinho a cada mudança no `main`). Sem domínio próprio, por decisão do dono: não mexer no DNS do bonomi.com.br.
 
 ## Base legal usada
 - LC 214/2025, texto atualizado com a LC 227/2026 (`fontes/lc-214-2025-atualizada.pdf`): anexos com NCM/NBS.
