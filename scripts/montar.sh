@@ -12,10 +12,13 @@ python3 -I ../scripts/tables.py ../fontes/lc-214-2025-atualizada.pdf
 pdftotext -layout ../fontes/tipi.pdf tipi.txt
 python3 -I ../scripts/tipi.py tipi.txt tipi.json
 python3 -I ../scripts/ncm.py ../fontes/tabela-ncm-vigente.xlsx tipi.json ncm.json
+pdftotext -layout ../fontes/nbs-2.0.pdf nbs.txt
+python3 -I ../scripts/nbs.py nbs.txt nbs.json
+python3 -I ../scripts/cnae.py ../fontes/cnae-subclasses-2.3.xlsx cnae.json
 python3 -I ../scripts/build.py
 cd ..
 python3 -I -c "
 t=open('scripts/template.html').read(); d=open('dados/data.json').read().replace('</','<\\\\/')
 open('index.html','w').write(t.replace('__DATA__',d))"
-rm -f dados/reg.txt dados/lc.txt dados/tipi.txt dados/tipi.json
+rm -f dados/reg.txt dados/lc.txt dados/tipi.txt dados/tipi.json dados/nbs.txt
 echo "index.html gerado."

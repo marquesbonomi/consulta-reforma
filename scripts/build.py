@@ -106,8 +106,9 @@ def lc_art(n):
     body=re.sub(r"(?<![.;:])\n(?![ ]?(§|[IVXL]+ -|[a-z]\)|Parágrafo))"," ",body)
     return re.sub(r"\n ","\n",body).strip()
 LC381=lc_art("381"); LC383=lc_art("383")
+KWP={"advogados":"advocacia advocatícios escritório de advocacia jurídico","contabilistas":"contabilidade contábil contador escritório contábil auditoria","arquitetos":"arquitetura projeto urbanismo","engenheiros":"engenharia agronomia","administradores":"administração consultoria em gestão","médicos":"veterinária veterinário clínica veterinária","profissionais de educação":"academia personal trainer educação física"}
 for p in PROF:
-    add("Serviços de "+p,"red30",.3,"202","127","profissão regulamentada conselho profissional serviço intelectual "+p,
+    add("Serviços de "+p,"red30",.3,"202","127","profissão regulamentada conselho profissional serviço intelectual "+p+" "+" ".join(v for k,v in KWP.items() if p.startswith(k)),
         obs="Pessoa física: serviço ligado à habilitação. Pessoa jurídica: sócios habilitados no conselho, sem sócio PJ, sem participar de outra PJ e só a atividade da habilitação (art. 202, § 1º).")
 add("Medicamentos registrados na Anvisa ou de farmácia de manipulação","red60",.6,"208","133","remédio farmácia drogaria medicamento",obs="Indústria/importador precisa ter compromisso com União e CGIBS ou seguir a CMED (§ 2º). Os de alíquota zero estão no art. 222.")
 add("Medicamentos de alíquota zero (doenças raras, oncologia, diabetes, HIV/IST, cardiovasculares, Farmácia Popular)","zero",1.0,"222","146","remédio farmácia medicamento câncer oncologia diabetes",obs="A lista nominal é fixada por ato conjunto (art. 222, § 3º).")
@@ -119,7 +120,7 @@ add("Automóveis para PcD, TEA ou taxistas","zero",1.0,"225","149","carro veícu
 add("Serviços de pesquisa e desenvolvimento de ICT sem fins lucrativos","zero",1.0,"232","156","pesquisa ciência tecnologia inovação fundação de apoio")
 add("Transporte público coletivo urbano, semiurbano e metropolitano (rodoviário e metroviário)","isento",1.0,"233","157","ônibus metrô transporte urbano")
 add("Reabilitação urbana de zonas históricas e áreas críticas","red60",.6,"234","158","obra imóvel centro histórico urbanismo",obs="Projeto precisa ser aprovado pela comissão tripartite (art. 235).")
-add("Bens imóveis: venda, construção e demais operações","red50",.5,"379","261","imobiliária incorporação loteamento construtora venda de imóvel",regs=["379","359"],obs="Há ainda redutores de ajuste e social na base de cálculo (arts. 364 a 378).")
+add("Bens imóveis: venda, construção e demais operações","red50",.5,"379","261","imobiliária incorporação loteamento construtora construção civil obra corretagem corretor administração de imóveis venda de imóvel",regs=["379","360"],obs="Vale para venda, incorporação, loteamento, cessão de direitos, serviços de construção civil e de administração e intermediação de imóveis (art. 360). Há ainda redutores de ajuste e social na base de cálculo (arts. 364 a 378).")
 add("Bens imóveis: locação, cessão onerosa e arrendamento","red70",.7,"379","261","aluguel locação imóvel administradora de imóveis",obs="Parágrafo único do art. 379.")
 add("Bares, restaurantes, lanchonetes, padarias, cafeterias, sorveterias","red40",.4,"400","275","restaurante bar alimentação lanchonete padaria",regs=["396","400"],obs="Regime específico; não vale para bebidas não alcoólicas industrializadas.")
 add("Hotelaria, parques de diversão e parques temáticos","red40",.4,"405","281","hotel pousada parque turismo hospedagem",regs=["402","405"])
@@ -150,10 +151,60 @@ NORMAS=[
  ["Resoluções CGIBS nº 1, 2, 3, 4, 5, 8, 9, 11, 16, 17 e 18 de 2026","Funcionamento interno do Comitê Gestor: comissões, eleição, regimento, estrutura, processo eletrônico, licitações, competências e pessoal","sem efeito"],
  ["Resoluções CGIBS nº 7, 10, 12 e 15 de 2026","Orçamento do Comitê Gestor para 2026 e 2027","sem efeito"],
  ["Tabela NCM vigente em 30/10/2026 (última atualização: Resolução Gecex nº 926/2026)","Códigos e descrições oficiais de todas as mercadorias","base"],
+ ["NBS 2.0 (Anexo I da Portaria Conjunta RFB/SCS, com alterações até 06/12/2018)","Códigos e descrições oficiais dos serviços","base"],
+ ["CNAE-Subclasses 2.3 (IBGE)","Atividades econômicas, ligadas às regras que podem se aplicar a cada uma","base"],
  ["TIPI 2022 (Decreto nº 11.158/2022, atualizada até o ADE RFB nº 1/2026)","Alíquotas de IPI por NCM, mostradas como informação","base"],
 ]
 NCM=json.load(open("ncm.json"))
-json.dump({"fontes":FONTES,"itens":itens,"ativ":A,"normas":NORMAS,"lc381":LC381,"lc383":LC383,"ncm":NCM}, open("data.json","w"), ensure_ascii=False, separators=(",",":"))
+# ---- identificadores das atividades (usados pelo mapa CNAE) ----
+IDS={"innatura":"Produtos agropecuários","rural":"Compra de produtor rural","med60":"Medicamentos registrados","med0":"Medicamentos de alíquota zero",
+ "comunic":"Comunicação institucional","desporto":"Atividades desportivas","ict":"Serviços de pesquisa e desenvolvimento de ICT","transpurb":"Transporte público coletivo urbano",
+ "reabil":"Reabilitação urbana","imoveis":"Bens imóveis: venda","locacao":"Bens imóveis: locação","bares":"Bares, restaurantes","hotel":"Hotelaria",
+ "transpinter":"Transporte coletivo intermunicipal","turismo":"Agências de turismo","coop":"Sociedades cooperativas","financ":"Serviços financeiros","planos":"Planos de assistência",
+ "apostas":"Concursos de prognósticos","combust":"Combustíveis","saf":"Sociedade Anônima do Futebol","residuos":"Compra de resíduos","usados":"Compra de bens móveis usados",
+ "imunes":"Imunidades"}
+for k_,p_ in {"adv":"advogados","cont":"contabilistas","arq":"arquitetos","adm":"administradores","eng":"engenheiros","vet":"médicos veterinários","edf":"profissionais de educação física"}.items(): IDS["prof-"+k_]="Serviços de "+p_
+for a_ in A:
+    for k_,t_ in IDS.items():
+        if a_["t"].startswith(t_): a_["id"]=k_
+_ids={a_.get("id") for a_ in A}
+assert all(k_ in _ids for k_ in IDS)
+assert all(v_[2:] in _ids for vs_ in CNAE_MAP.values() for v_ in vs_ if v_.startswith("a:")) if "CNAE_MAP" in dir() else True
+assert all(k_ in _ids for k_ in IDS), [k_ for k_ in IDS if not any(a_.get("id")==k_ for a_ in A)]
+
+# ---- CNAE -> regras que podem se aplicar (por afinidade; a lei não traz tabela CNAE) ----
+# chave = dígitos do início do código CNAE (divisão, grupo, classe ou subclasse); valor = atividades (a:) ou anexos (x:)
+CNAE_MAP={
+ "01":["a:innatura","a:rural"],"02":["a:innatura","a:rural"],"03":["a:innatura","a:rural"],
+ "2013":["x:IX"],"2051":["x:IX"],"4683":["x:IX"],"0161":["x:IX"],"0162":["x:IX"],
+ "85":["x:II"],"86":["x:III"],"87":["x:III"],"88":["x:III"],
+ "6911":["a:prof-adv"],"6920":["a:prof-cont"],"7111":["a:prof-arq"],"7112":["a:prof-eng"],
+ "7020":["a:prof-adm"],"7500":["a:prof-vet"],"9313":["a:prof-edf","a:desporto"],
+ "7210":["a:ict"],"7220":["a:ict"],
+ "5611":["a:bares"],"10911":["a:bares"],"47211":["a:bares"],
+ "551":["a:hotel"],"559":["a:hotel"],"9321":["a:hotel"],
+ "4921":["a:transpurb"],"4912402":["a:transpurb"],"4912403":["a:transpurb"],"4912401":["a:transpinter"],
+ "4922":["a:transpinter"],"4929":["a:transpinter"],"5091":["a:transpinter"],"5099":["a:transpinter"],"5111":["a:transpinter"],"5120":["a:transpinter"],
+ "7911":["a:turismo"],"7912":["a:turismo"],"7990":["a:turismo"],
+ "64":["a:financ"],"65":["a:financ"],"66":["a:financ"],"6550":["a:planos"],"9200":["a:apostas"],
+ "41":["a:imoveis","a:reabil"],"42":["a:imoveis"],"43":["a:imoveis"],"6810201":["a:imoveis"],"6810202":["a:locacao"],"6810203":["a:imoveis"],"682":["a:imoveis"],
+ "1921":["a:combust"],"1922":["a:combust"],"1931":["a:combust"],"1932":["a:combust"],"4681":["a:combust"],"4731":["a:combust"],
+ "931":["a:desporto"],"9001":["x:X"],"9002":["x:X"],"9003":["x:X"],"591":["x:X"],"8230":["x:X"],"6391":["x:X"],"9102":["x:X"],
+ "7311":["a:comunic"],"7312":["a:comunic"],"7319":["a:comunic"],"7320":["a:comunic"],
+ "381":["a:residuos"],"383":["a:residuos"],"4687":["a:residuos"],"4511102":["a:usados"],"4511104":["a:usados"],
+ "4771":["a:med60","a:med0"],"2121":["a:med60","a:med0"],"2123":["a:med60","a:med0"],"4644":["a:med60","a:med0"],
+ "9491":["a:imunes"],"9492":["a:imunes"],
+}
+assert all(v_[2:] in _ids for vs_ in CNAE_MAP.values() for v_ in vs_ if v_.startswith("a:")), "CNAE_MAP com id inexistente"
+# ---- NBS -> regras por atividade (a redução de 30% e os regimes específicos não têm lista de NBS na lei) ----
+NBS_MAP={"101":["a:imoveis"],"10301":["a:bares"],"103013":["!a:bares"],  # 1.0301.3x: alimentação sob contrato, fora do regime (art. 397, I)
+ "10303":["a:hotel"],"10304":["a:hotel"],"10401":["a:transpurb"],"10402":["a:transpinter"],
+ "109":["a:financ"],"10910":["a:planos"],"11001":["a:imoveis"],"11002":["a:locacao"],"11201":["a:ict"],
+ "11301":["a:prof-adv"],"11302":["a:prof-cont"],"11303":["a:prof-cont","a:prof-adv"],"11401":["a:prof-adm"],"11402":["a:prof-arq"],"11403":["a:prof-eng"],"11405":["a:prof-vet"],
+ "11406":["a:comunic"],"11805":["a:turismo"],"122051200":["a:desporto"],"12505":["a:desporto","a:prof-edf"],"12507":["a:hotel"]}
+assert all(v_.lstrip("!")[2:] in _ids for vs_ in NBS_MAP.values() for v_ in vs_), "NBS_MAP com id inexistente"
+NBS=json.load(open("nbs.json")); CNAE=json.load(open("cnae.json"))
+json.dump({"fontes":FONTES,"itens":itens,"ativ":A,"normas":NORMAS,"lc381":LC381,"lc383":LC383,"ncm":NCM,"nbs":NBS,"cnae":CNAE,"cnaemap":CNAE_MAP,"nbsmap":NBS_MAP}, open("data.json","w"), ensure_ascii=False, separators=(",",":"))
 from collections import Counter
 print(len(itens), Counter(i["a"] for i in itens)); print(len(A))
 print([ (i["n"],i["p"],i["x"]) for i in itens if i["a"]=="I"][18:20])

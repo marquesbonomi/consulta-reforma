@@ -9,3 +9,4 @@ Falar em português, direto. Público é cliente: linguagem simples, sem jargão
 - Nunca inventar item, código ou percentual: tudo tem que sair do texto da norma, com o artigo citado.
 - Alíquotas padrão da tela (em `scripts/template.html`): CBS 11,32% e IBS 0,1%.
 - Nada de dado de cliente, senha ou token neste repositório (ele é público).
+- CNAE e regras por atividade da NBS são ligações por afinidade (`CNAE_MAP`/`NBS_MAP` no build.py), não tabela oficial: a tela avisa isso. Ao mudar, citar o artigo que justifica.
