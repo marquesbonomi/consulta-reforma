@@ -47,6 +47,18 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .busca{margin-top:22px;display:flex;flex-direction:column;gap:10px}
 .busca input{width:100%;font:500 1.15rem var(--f-body);padding:14px 16px;border:2px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink)}
 .busca input:focus{outline:none;border-color:var(--accent)}
+.campo{display:flex;gap:8px;align-items:stretch}
+.campo input{flex:1;min-width:0}
+.limpar{flex:none;font:600 1rem var(--f-body);padding:0 18px;border:2px solid var(--accent);border-radius:10px;background:var(--surface);color:var(--accent);cursor:pointer}
+.limpar:hover{background:var(--accent);color:var(--surface)}
+.limpar:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ajuda{margin:0;font-size:.92rem;color:var(--muted);max-width:75ch}
+.ajuda b{color:var(--ink);font-weight:600}
+.guia{background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}
+.guia div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.guia b{font:700 1rem var(--f-display)}
+.guia span{font-size:.9rem;color:var(--muted)}
+.guia code{font:500 .85rem var(--f-mono);color:var(--ink)}
 .dica{font-size:.88rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .chip{font:500 .82rem var(--f-mono);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:3px 9px;border-radius:999px;cursor:pointer}
 .chip:hover,.chip:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
@@ -170,7 +182,11 @@ pre.txt{white-space:pre-wrap;font:400 .86rem/1.55 var(--f-body);background:var(-
 </div>
 
 <div class="busca">
-  <input id="q" type="search" autocomplete="off" placeholder="NCM (0402.21.10), NBS (1.2301.22.00), CNAE (6920-6/01) ou palavra" aria-label="Buscar">
+  <div class="campo">
+    <input id="q" type="search" autocomplete="off" placeholder="NCM (0402.21.10), NBS (1.2301.22.00), CNAE (6920-6/01) ou palavra" aria-label="Buscar">
+    <button class="limpar" id="limpar" type="button">Limpar</button>
+  </div>
+  <p class="ajuda">Digite o código <b>NCM</b> da mercadoria, o código <b>NBS</b> do serviço, a <b>CNAE</b> da atividade ou uma palavra. Pode digitar só o começo do código para ver todos os itens dentro dele. Clique em <b>Limpar</b> para começar uma nova pesquisa.</p>
   <div class="dica">Exemplos:
     <button class="chip" data-q="0402.21.10">0402.21.10</button>
     <button class="chip" data-q="0207.43.00">0207.43.00</button>
@@ -525,7 +541,11 @@ function render(){
   const lista = $("#lista"), res = $("#resumo");
   ["cbs","ibs"].forEach(id => store("rt-"+id, $("#"+id).value));
   $("#cheia").textContent = pct(num($("#cbs")) + num($("#ibs")));
-  if (!raw){ res.innerHTML = "Digite um código ou uma palavra."; lista.innerHTML = ""; return; }
+  if (!raw){ res.innerHTML = "Escolha como pesquisar:"; lista.innerHTML = `<div class="guia">
+    <div><b>Mercadoria</b><span>Código NCM, completo ou só o começo</span><code>0402.21.10 · 0402</code></div>
+    <div><b>Serviço</b><span>Código NBS, começando por 1.</span><code>1.2301.22.00 · 1.13</code></div>
+    <div><b>Atividade</b><span>CNAE com hífen ou barra</span><code>6920-6/01 · cnae 5611</code></div>
+    <div><b>Palavra</b><span>Nome do produto, serviço ou atividade</span><code>arroz · aluguel · estoque</code></div></div>`; return; }
   const d = dig(raw);
   let html = "", n = 0;
   const ehCnae = /^(cnae\s*)?\d{2}(\.?\d)?(\d-?\d)?(\/\d{2})?$/i.test(raw) && /[-\/]|cnae/i.test(raw);
@@ -626,6 +646,7 @@ const irNcm = tr => { $("#q").value = tr.dataset.ncm || tr.dataset.cod; render()
 $("#lista").addEventListener("click", e => { const tr = e.target.closest("tr[data-ncm], tr[data-cod]"); if (tr) irNcm(tr); const ax = e.target.closest("[data-anexo]"); if (ax) verAnexo(ax.dataset.anexo); });
 $("#lista").addEventListener("keydown", e => { const tr = e.target.closest("tr[data-ncm], tr[data-cod]"); if (tr && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); irNcm(tr); } });
 $("#lista").addEventListener("click", e => { const b = e.target.closest("[data-ir]"); if (!b) return; aba(b.dataset.ir); $(".tabs").scrollIntoView({block:"start"}); });
+$("#limpar").addEventListener("click", () => { $("#q").value = ""; aba("busca"); render(); $("#q").focus(); });
 let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => { aba("busca"); render(); }, 150); });
 ["cbs","ibs"].forEach(id => $("#"+id).addEventListener("input", render));
 
