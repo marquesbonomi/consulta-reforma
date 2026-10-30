@@ -1,8 +1,8 @@
 # Consulta Reforma Tributária — Bonomi Contábil
 
-Página pública de consulta dos benefícios de IBS e CBS por NCM, NBS ou atividade.
+Página pública de consulta (repositório `marquesbonomi/consulta-reforma`) dos benefícios de IBS e CBS por NCM, NBS ou atividade.
 
-No ar em: **https://reforma.bonomi.com.br** (GitHub Pages, publica sozinho a cada mudança no `main`). O domínio está no arquivo `CNAME`; no DNS do bonomi.com.br há um registro CNAME `reforma` → `bonomi-contabil.github.io`.
+No ar em: **https://reforma.bonomi.com.br** (GitHub Pages, publica sozinho a cada mudança no `main`). O domínio está no arquivo `CNAME`; no DNS do bonomi.com.br há um registro CNAME `reforma` → `marquesbonomi.github.io`.
 
 ## Base legal usada
 - LC 214/2025, texto atualizado com a LC 227/2026 (`fontes/lc-214-2025-atualizada.pdf`): anexos com NCM/NBS.
