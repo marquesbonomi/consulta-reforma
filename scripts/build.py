@@ -149,8 +149,11 @@ NORMAS=[
  ["Resolução CGIBS nº 14, de 29/07/2026","Percentual da arrecadação do IBS que financia o Comitê Gestor em 2027","sem efeito"],
  ["Resoluções CGIBS nº 1, 2, 3, 4, 5, 8, 9, 11, 16, 17 e 18 de 2026","Funcionamento interno do Comitê Gestor: comissões, eleição, regimento, estrutura, processo eletrônico, licitações, competências e pessoal","sem efeito"],
  ["Resoluções CGIBS nº 7, 10, 12 e 15 de 2026","Orçamento do Comitê Gestor para 2026 e 2027","sem efeito"],
+ ["Tabela NCM vigente em 30/10/2026 (última atualização: Resolução Gecex nº 926/2026)","Códigos e descrições oficiais de todas as mercadorias","base"],
+ ["TIPI 2022 (Decreto nº 11.158/2022, atualizada até o ADE RFB nº 1/2026)","Alíquotas de IPI por NCM, mostradas como informação","base"],
 ]
-json.dump({"fontes":FONTES,"itens":itens,"ativ":A,"normas":NORMAS,"lc381":LC381,"lc383":LC383}, open("data.json","w"), ensure_ascii=False, separators=(",",":"))
+NCM=json.load(open("ncm.json"))
+json.dump({"fontes":FONTES,"itens":itens,"ativ":A,"normas":NORMAS,"lc381":LC381,"lc383":LC383,"ncm":NCM}, open("data.json","w"), ensure_ascii=False, separators=(",",":"))
 from collections import Counter
 print(len(itens), Counter(i["a"] for i in itens)); print(len(A))
 print([ (i["n"],i["p"],i["x"]) for i in itens if i["a"]=="I"][18:20])

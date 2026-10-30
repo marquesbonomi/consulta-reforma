@@ -117,6 +117,32 @@ pre.txt{white-space:pre-wrap;font:400 .86rem/1.55 var(--f-body);background:var(-
 .res2 span{font:600 .72rem var(--f-body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .res2 .big{font-size:1.35rem;color:var(--accent)}
 .link-aba{background:none;border:0;padding:0;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;text-decoration:underline}
+.ncmbox{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.trilha{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;font-size:.9rem;color:var(--muted)}
+.trilha li{display:grid;grid-template-columns:7.5em 1fr;gap:8px}
+.trilha code{font:500 .82rem var(--f-mono);color:var(--muted)}
+.trilha li:last-child{color:var(--ink);font-weight:600;font-size:1rem}
+.trilha li:last-child code{color:var(--ink)}
+.status{display:grid;grid-template-columns:1fr auto;gap:6px 18px;align-items:start;border-top:1px dashed var(--line);padding-top:10px}
+.status>*{min-width:0}
+.status h3{margin:0;font:700 1.1rem var(--f-display)}
+.status p{margin:2px 0 0;font-size:.92rem}
+.ipi{font-size:.9rem;color:var(--ink);border-top:1px dashed var(--line);padding-top:8px}
+.ipi small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.ipi ul{margin:4px 0 0;padding-left:1.2em;font-size:.85rem;color:var(--muted)}
+.tabela{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.tabela table{border-collapse:collapse;width:100%;font-size:.9rem;font-variant-numeric:tabular-nums}
+.tabela th{text-align:left;font:600 .72rem var(--f-body);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tabela td{padding:7px 10px;border-top:1px solid var(--line);vertical-align:top}
+.tabela tr:first-child td{border-top:0}
+.tabela td.c{font:500 .82rem var(--f-mono);white-space:nowrap}
+.tabela td.n{font:600 .85rem var(--f-mono);text-align:right;white-space:nowrap}
+.tabela tbody tr{cursor:pointer}
+.tabela tbody tr:hover td,.tabela tbody tr:focus-visible td{background:var(--accent-soft);outline:none}
+.tabela .trat{font-size:.66rem;white-space:nowrap}
+.tabela .pos{font-size:.78rem;color:var(--muted);margin-top:1px}
+.t-cheia{background:var(--code-bg);color:var(--muted)}
+.sec{font:700 1.05rem var(--f-display);margin:18px 0 4px}
 .aviso{margin-top:28px;font-size:.84rem;color:var(--muted);max-width:70ch}
 @media (max-width:560px){.sep{display:none}.ficha{grid-template-columns:1fr}.calc{text-align:left;justify-self:start}.fonte{text-align:left}}
 </style>
@@ -132,7 +158,7 @@ pre.txt{white-space:pre-wrap;font:400 .86rem/1.55 var(--f-body);background:var(-
       <p class="sub">Benefícios de IBS e CBS por NCM, NBS ou atividade</p>
     </div>
   </div>
-  <p class="fonte">LC 214/2025 (texto atualizado, com a LC 227/2026), Resolução CGIBS nº 6/2026 (regulamento) e alterações até a Resolução CGIBS nº 18/2026</p>
+  <p class="fonte">LC 214/2025 (texto atualizado, com a LC 227/2026), Resolução CGIBS nº 6/2026 (regulamento) e alterações até a Resolução CGIBS nº 18/2026 · Tabela NCM vigente em 30/10/2026 e TIPI</p>
 </header>
 
 <div class="regua">
@@ -144,7 +170,7 @@ pre.txt{white-space:pre-wrap;font:400 .86rem/1.55 var(--f-body);background:var(-
 </div>
 
 <div class="busca">
-  <input id="q" type="search" autocomplete="off" placeholder="NCM (0402.21.10), NBS (1.2301.22.00) ou palavra (contabilista, arroz, aluguel)" aria-label="Buscar">
+  <input id="q" type="search" autocomplete="off" placeholder="NCM (0402.21.10), NBS (1.2301.22.00) ou palavra (arroz, contabilista, aluguel)" aria-label="Buscar">
   <div class="dica">Exemplos:
     <button class="chip" data-q="0402.21.10">0402.21.10</button>
     <button class="chip" data-q="0207.43.00">0207.43.00</button>
@@ -152,6 +178,8 @@ pre.txt{white-space:pre-wrap;font:400 .86rem/1.55 var(--f-body);background:var(-
     <button class="chip" data-q="contabilista">contabilista</button>
     <button class="chip" data-q="aluguel">aluguel</button>
     <button class="chip" data-q="8703">8703</button>
+    <button class="chip" data-q="2202.10.00">2202.10.00</button>
+    <button class="chip" data-q="8471.30">8471.30</button>
     <button class="chip" data-q="estoque">estoque</button>
   </div>
 </div>
@@ -261,7 +289,7 @@ pre.txt{white-space:pre-wrap;font:400 .86rem/1.55 var(--f-body);background:var(-
   <div class="normas" id="normas"></div>
 </div>
 
-<p class="aviso">Material informativo da Bonomi Contábil, com base na LC 214/2025 e na Resolução CGIBS nº 6/2026. As reduções valem para IBS e CBS. O cálculo mostra só a alíquota nominal, sem base de cálculo, redutores ou créditos, e vários benefícios dependem das condições descritas em cada artigo. Antes de aplicar no seu negócio, fale com a equipe da Bonomi Contábil.</p>
+<p class="aviso">Material informativo da Bonomi Contábil, com base na LC 214/2025, na Resolução CGIBS nº 6/2026, na Tabela NCM vigente e na TIPI. Código NCM que não consta nas listas de benefício segue a alíquota cheia. As reduções valem para IBS e CBS. O cálculo mostra só a alíquota nominal, sem base de cálculo, redutores ou créditos, e vários benefícios dependem das condições descritas em cada artigo. Antes de aplicar no seu negócio, fale com a equipe da Bonomi Contábil.</p>
 </div>
 
 <script>
@@ -352,6 +380,58 @@ function porCodigo(q, kind){
   return out;
 }
 
+// ---- Tabela NCM + TIPI ----
+const NROWS = DATA.ncm.rows, NMAP = new Map(), LEAVES = [];
+for (const r of NROWS){ const d = dig(r[0]); NMAP.set(d, r); if (d.length === 8) LEAVES.push(r); }
+const limpa = t => t.replace(/^[-\s]+/, "");
+function trilha(d){ return [2,4,5,6,7,8].filter(n => n <= d.length).map(n => NMAP.get(d.slice(0,n))).filter(Boolean); }
+let LTXT = null;
+function leafTxt(){ if (!LTXT) LTXT = LEAVES.map(r => sem(trilha(dig(r[0])).map(x => limpa(x[1])).join(" "))); return LTXT; }
+function tratarNcm(d){
+  const r = porCodigo(d, "ncm");
+  const ok = r.filter(x => x.m.tipo === "full" && x.i.a !== "XVII").sort((a,b) => DATA.fontes[b.i.a].red - DATA.fontes[a.i.a].red);
+  return { best: ok[0], is: r.some(x => x.i.a === "XVII" && x.m.tipo === "full"), todas: r };
+}
+function badge(t){
+  if (!t.best) return `<span class="trat t-cheia">Alíquota cheia</span>`;
+  const T = TR[DATA.fontes[t.best.i.a].trat]; return `<span class="trat ${T.c}">${T.l}</span>`;
+}
+const cheiaTot = () => num($("#cbs")) + num($("#ibs"));
+const redDe = t => t.best ? DATA.fontes[t.best.i.a].red : 0;
+const ipiTxt = v => v == null ? "ver TIPI" : v === "NT" ? "NT" : v + "%";
+function tabelaNcm(rows, max){
+  const tot = cheiaTot();
+  const linhas = rows.slice(0, max).map(r => { const d = dig(r[0]), t = tratarNcm(d);
+    return `<tr tabindex="0" data-ncm="${r[0]}"><td class="c">${r[0]}</td><td>${esc(limpa(r[1]))}${(() => { const pos = NMAP.get(d.slice(0,4)); return pos ? `<div class="pos">${esc(limpa(pos[1]).slice(0,110))}${limpa(pos[1]).length > 110 ? "…" : ""}</div>` : ""; })()}</td><td>${badge(t)}${t.is ? ` <span class="trat t-is">Seletivo</span>` : ""}</td><td class="n">${pct(tot*(1-redDe(t)))}</td><td class="n">${ipiTxt(r[2])}</td></tr>`; }).join("");
+  return `<div class="tabela"><table><thead><tr><th>NCM</th><th>Descrição</th><th>IBS/CBS</th><th>Total</th><th>IPI</th></tr></thead><tbody>${linhas}</tbody></table></div>`;
+}
+const NOTA_IPI = `IPI pela TIPI (Decreto nº 11.158/2022, atualizada até o ADE RFB nº 1/2026). A partir de 2027 o IPI fica zerado, exceto para produtos com industrialização incentivada na Zona Franca de Manaus (Constituição, ADCT, art. 126, III, "a"; lista a ser divulgada pela União, LC 214/2025, art. 454, § 3º).`;
+function blocoNcm(d, raw){
+  const tr = trilha(d), row = NMAP.get(d);
+  if (!tr.length) return `<div class="ncmbox"><p>O código <b>${esc(raw)}</b> não consta na Tabela NCM vigente (${esc(DATA.ncm.vig.replace(/[()]/g,""))}). Confira os dígitos.</p></div>`;
+  const tril = `<ol class="trilha">${tr.map(r => `<li><code>${r[0]}</code><span>${esc(limpa(r[1]))}</span></li>`).join("")}</ol>`;
+  if (!row || d.length < 8){
+    const sub = LEAVES.filter(r => dig(r[0]).startsWith(d));
+    return `<div class="ncmbox">${tril}</div><h2 class="sec">${sub.length} ${sub.length>1?"códigos":"código"} de 8 dígitos dentro de ${esc(tr[tr.length-1][0])}</h2>`
+      + tabelaNcm(sub, 400) + (sub.length > 400 ? `<p class="resumo">Mostrando os 400 primeiros. Digite mais dígitos para filtrar.</p>` : "");
+  }
+  const t = tratarNcm(d), tot = cheiaTot(), cbs = num($("#cbs")), ibs = num($("#ibs"));
+  let st;
+  const cap = +d.slice(0,2), redB = redDe(t);
+  const cond = redB >= 1 ? "" : cap <= 14 ? `<p>Atenção: produto agropecuário, pesqueiro ou extrativista <b>in natura</b> tem redução de 60% mesmo sem estar em lista (regulamento, art. 212). Busque "in natura".</p>`
+    : cap === 30 ? `<p>Atenção: <b>medicamentos</b> registrados na Anvisa têm redução de 60% ou alíquota zero, conforme o caso, mesmo sem estar em lista (regulamento, arts. 208 e 222). Busque "medicamento".</p>` : "";
+  if (t.best){
+    const f = DATA.fontes[t.best.i.a];
+    st = `<div><h3>${TR[f.trat].l}</h3><p>${/^[IVX]+$/.test(t.best.i.a) ? `Anexo ${t.best.i.a} da LC 214/2025, item ${t.best.i.n}` : esc(f.tit)} · LC art. ${f.lc}${f.reg !== "—" ? ` · Regulamento art. ${f.reg}` : ""}. Detalhes e condições abaixo.</p>${redB < .6 || cap === 30 ? cond : ""}</div>${calcHTML(f.red)}`;
+  } else {
+    st = `<div><h3>Alíquota cheia</h3><p>Este NCM não consta nas listas de benefício da LC 214/2025 nem do regulamento do IBS. Aplica-se a alíquota cheia de IBS e CBS.</p>${cond}</div>${calcHTML(0)}`;
+  }
+  const ex = (DATA.ncm.ex[row[0]] || []).map(e => `<li>Ex ${e[0]}: ${esc(e[1])} (${ipiTxt(e[2])})</li>`).join("");
+  return `<div class="ncmbox">${tril}<div class="status">${st}</div>
+    ${t.is ? `<p class="obs"><b>Sujeito ao Imposto Seletivo</b> (LC 214/2025, Anexo XVII). As alíquotas serão fixadas em lei ordinária.</p>` : ""}
+    <div class="ipi"><b>IPI (TIPI): ${ipiTxt(row[2])}</b>${ex ? `<ul>${ex}</ul>` : ""}<small>${NOTA_IPI}</small></div></div>`;
+}
+
 function render(){
   const raw = $("#q").value.trim();
   const lista = $("#lista"), res = $("#resumo");
@@ -365,6 +445,14 @@ function render(){
     const kind = /^1\.\d/.test(raw) || (d.length === 9 && d[0] === "1") ? "nbs" : "ncm";
     const r = porCodigo(d, kind); n = r.length;
     html = r.map(x => fichaItem(x.i, x.m)).join("");
+    if (kind === "ncm"){
+      const topo = blocoNcm(d, raw);
+      html = topo + (r.length ? `<h2 class="sec">Onde este código aparece na legislação</h2>` + html : "");
+      const row = NMAP.get(d), t = row && d.length === 8 ? tratarNcm(d) : null;
+      res.innerHTML = t ? `<b>NCM ${row[0]}</b>: ${t.best ? TR[DATA.fontes[t.best.i.a].trat].l.toLowerCase() : "alíquota cheia"}, total de IBS e CBS de <b>${pct(cheiaTot()*(1-redDe(t)))}</b>${t.is ? "; sujeito ao Imposto Seletivo" : ""}.`
+        : `<b>NCM ${esc(raw)}</b>`;
+      lista.innerHTML = html; return;
+    }
     const benef = r.filter(x => x.m.tipo === "full" && x.i.a !== "XVII");
     const sel = r.some(x => x.i.a === "XVII" && x.m.tipo === "full");
     res.innerHTML = n === 0
@@ -376,9 +464,11 @@ function render(){
     const ok = t => ws.every(w => t.includes(w));
     const at = DATA.ativ.filter(a => ok(a._t));
     const it = DATA.itens.filter(i => ok(i._t));
-    n = at.length + it.length;
-    html = at.map(fichaAtiv).join("") + it.slice(0, 80).map(i => fichaItem(i)).join("");
-    res.innerHTML = n ? `<b>${n}</b> ${n>1?"resultados":"resultado"} para “${esc(raw)}”` + (it.length > 80 ? " (mostrando os 80 primeiros itens de anexo)" : "") + "."
+    const lt = leafTxt(), nc = LEAVES.filter((r, k) => ok(lt[k]));
+    n = at.length + it.length + nc.length;
+    html = at.map(fichaAtiv).join("") + it.slice(0, 80).map(i => fichaItem(i)).join("")
+      + (nc.length ? `<h2 class="sec">Códigos NCM com “${esc(raw)}” na descrição (${nc.length})</h2>` + tabelaNcm(nc, 150) + (nc.length > 150 ? `<p class="resumo">Mostrando os 150 primeiros. Refine a busca.</p>` : "") : "");
+    res.innerHTML = n ? `<b>${at.length + it.length}</b> ${at.length + it.length === 1 ? "regra" : "regras"} da legislação e <b>${nc.length}</b> ${nc.length === 1 ? "código NCM" : "códigos NCM"} para “${esc(raw)}”` + (it.length > 80 ? " (mostrando os 80 primeiros itens de anexo)" : "") + "."
       : `Nada encontrado para “${esc(raw)}”. Tente outra palavra ou o código NCM/NBS.`;
   }
   lista.innerHTML = html || "";
@@ -427,6 +517,9 @@ function calcEstoque(){
 }
 ["est-valor","est-mes"].forEach(id => $("#"+id).addEventListener("input", calcEstoque));
 calcEstoque();
+const irNcm = tr => { $("#q").value = tr.dataset.ncm; render(); $(".tabs").scrollIntoView({block:"start"}); };
+$("#lista").addEventListener("click", e => { const tr = e.target.closest("tr[data-ncm]"); if (tr) irNcm(tr); });
+$("#lista").addEventListener("keydown", e => { const tr = e.target.closest("tr[data-ncm]"); if (tr && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); irNcm(tr); } });
 $("#lista").addEventListener("click", e => { const b = e.target.closest("[data-ir]"); if (!b) return; aba(b.dataset.ir); $(".tabs").scrollIntoView({block:"start"}); });
 let tm; $("#q").addEventListener("input", () => { clearTimeout(tm); tm = setTimeout(() => { aba("busca"); render(); }, 150); });
 ["cbs","ibs"].forEach(id => $("#"+id).addEventListener("input", render));

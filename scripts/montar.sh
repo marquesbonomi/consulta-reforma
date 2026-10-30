@@ -9,10 +9,13 @@ pdftotext -layout ../fontes/resolucao-cgibs-6-2026-regulamento-ibs.pdf reg.txt
 python3 -I ../scripts/arts.py reg.txt reg_arts.json
 pdftotext -layout ../fontes/lc-214-2025-atualizada.pdf lc.txt
 python3 -I ../scripts/tables.py ../fontes/lc-214-2025-atualizada.pdf
+pdftotext -layout ../fontes/tipi.pdf tipi.txt
+python3 -I ../scripts/tipi.py tipi.txt tipi.json
+python3 -I ../scripts/ncm.py ../fontes/tabela-ncm-vigente.xlsx tipi.json ncm.json
 python3 -I ../scripts/build.py
 cd ..
 python3 -I -c "
 t=open('scripts/template.html').read(); d=open('dados/data.json').read().replace('</','<\\\\/')
 open('index.html','w').write(t.replace('__DATA__',d))"
-rm -f dados/reg.txt dados/lc.txt
+rm -f dados/reg.txt dados/lc.txt dados/tipi.txt dados/tipi.json
 echo "index.html gerado."
